@@ -1,17 +1,16 @@
-module Dojo.Main where
+module Dojo.Main (makeMoney) where 
+data Book = Book1 | Book2 | Book3 | Book4 deriving (Eq)
 
-data Book = Book1 | Book2 | Book3 deriving (Eq, Show)
+instance Show Book where
+		show Book1 = "The rock"
+		show Book2 = "The hobbit"
+		show Book3 = "The one with big spiders"
+		show a = "Another book" 
 
-data Money a = USD a deriving (Eq, Show)
+data Money a = USD a deriving (Eq)
 
-price :: Fractional b => [Book] -> Money b
+instance (Show b) => Show (Money b) where
+	show (USD a) = "$" ++ show a 
 
-price [a,b] 
-	| a /= b = USD 15.2
-	| otherwise = USD 16.0
-
-price books = USD (8.0 * fromIntegral(length(books)))
-
-count books book = (length . filter (\x -> x == book)) books
-
---alldifferent books = all (\x -> count(x,books) == 1) books
+makeMoney :: Fractional a => a -> Money a
+makeMoney a = USD a
